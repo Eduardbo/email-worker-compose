@@ -1,0 +1,492 @@
+
+============================================================
+COMANDOS BÁSICOS DO DOCKER
+============================================================
+
+docker --version
+    Mostra a versão do Docker.
+
+docker info
+    Mostra informações gerais do Docker.
+
+docker ps
+    Mostra apenas containers em execução.
+
+docker ps -a
+    Mostra todos os containers, inclusive os parados.
+
+docker images
+    Lista as imagens Docker disponíveis localmente.
+
+docker pull NOME_DA_IMAGEM
+    Baixa uma imagem do registry.
+
+docker run NOME_DA_IMAGEM
+    Cria e inicia um container a partir de uma imagem.
+
+docker stop NOME_OU_ID
+    Para um container.
+
+docker start NOME_OU_ID
+    Inicia novamente um container parado.
+
+docker restart NOME_OU_ID
+    Reinicia um container.
+
+docker rm NOME_OU_ID
+    Remove um container parado.
+
+docker rmi NOME_DA_IMAGEM
+    Remove uma imagem.
+
+docker logs NOME_OU_ID
+    Mostra os logs do container.
+
+docker logs -f NOME_OU_ID
+    Mostra os logs continuamente.
+
+docker inspect NOME_OU_ID
+    Mostra informações detalhadas do container.
+
+============================================================
+3. ENTRAR E EXECUTAR COMANDOS EM CONTAINERS
+============================================================
+
+docker exec -it NOME_OU_ID bash
+    Abre um shell bash dentro do container.
+
+docker exec -it NOME_OU_ID sh
+    Abre um shell sh dentro do container.
+
+docker exec -it NOME_OU_ID COMANDO
+    Executa um comando dentro do container.
+
+IMPORTANTE:
+Para acessar diretamente o PostgreSQL em um container:
+
+docker exec -it ID_DO_POSTGRES psql -U postgres
+
+Exemplo usado no projeto:
+
+docker exec -it e12038c57de4 psql -U postgres
+
+ATENÇÃO:
+O container 8be87975ab06 é Redis, não PostgreSQL.
+O container e12038c57de4 é o PostgreSQL usado no exemplo.
+
+============================================================
+4. DOCKER COMPOSE
+============================================================
+
+docker compose version
+    Mostra a versão do Docker Compose.
+
+docker compose ps
+    Mostra os serviços do projeto e seu estado.
+
+docker compose ps -a
+    Mostra os serviços, incluindo os parados.
+
+docker compose up
+    Cria/inicia os serviços definidos no compose.
+
+docker compose up -d
+    Inicia os serviços em segundo plano.
+
+docker compose down
+    Para e remove os containers criados pelo Compose.
+
+docker compose restart
+    Reinicia os serviços.
+
+docker compose logs
+    Mostra os logs dos serviços.
+
+docker compose logs -f
+    Acompanha os logs em tempo real.
+
+docker compose logs NOME_DO_SERVICO
+    Mostra os logs de um serviço específico.
+
+docker compose build
+    Constrói/reconstrói as imagens dos serviços.
+
+docker compose pull
+    Baixa as imagens necessárias.
+
+docker compose exec NOME_DO_SERVICO COMANDO
+    Executa um comando dentro do serviço.
+
+EXEMPLO:
+docker compose exec NOME_DO_SERVICO psql -U postgres
+
+IMPORTANTE:
+docker compose e docker exec possuem sintaxes diferentes.
+
+ERRADO:
+docker compose -it ID_DO_CONTAINER psql -U postgres
+
+CERTO:
+docker exec -it ID_DO_CONTAINER psql -U postgres
+
+============================================================
+5. REDIS — COMANDOS BÁSICOS
+============================================================
+
+redis-cli
+    Abre o cliente Redis quando o redis-cli estiver instalado.
+
+Para executar dentro do container Redis:
+
+docker exec -it ID_DO_REDIS redis-cli
+
+Exemplo:
+
+docker exec -it 8be87975ab06 redis-cli
+
+PING
+    Testa a conexão com o Redis.
+
+KEYS *
+    Lista as chaves existentes.
+    CUIDADO: pode ser pesado em bases grandes.
+
+GET NOME_DA_CHAVE
+    Mostra o valor de uma chave do tipo string.
+
+DEL NOME_DA_CHAVE
+    Remove uma chave.
+
+DBSIZE
+    Mostra a quantidade de chaves no banco Redis atual.
+
+INFO
+    Mostra informações do Redis.
+
+QUIT
+    Sai do redis-cli.
+
+============================================================
+6. ENTRAR NO POSTGRESQL
+============================================================
+
+Comando geral:
+
+docker exec -it ID_DO_POSTGRES psql -U postgres
+
+Exemplo do projeto:
+
+docker exec -it e12038c57de4 psql -U postgres
+
+Depois de executar, você verá algo parecido com:
+
+psql (9.6.24)
+Type "help" for help.
+
+postgres=#
+
+Isso significa que você está dentro do PostgreSQL.
+
+============================================================
+7. POSTGRESQL — NAVEGAÇÃO E VISUALIZAÇÃO
+============================================================
+
+\\l
+    Lista todos os bancos de dados.
+
+\\c NOME_DO_BANCO
+    Conecta a um banco específico.
+
+Exemplo:
+
+\\c email_sender
+
+\\dt
+    Lista as tabelas do banco atual.
+
+\\dt+
+    Lista as tabelas com informações adicionais.
+
+\\d NOME_DA_TABELA
+    Mostra a estrutura da tabela.
+
+Exemplo:
+
+\\d emails
+
+\\d+
+    Lista relações/tabelas com informações adicionais.
+
+\\dn
+    Lista os schemas.
+
+\\du
+    Lista os usuários/roles do PostgreSQL.
+
+\\conninfo
+    Mostra informações sobre a conexão atual.
+
+\\q
+    Sai do PostgreSQL.
+
+============================================================
+8. POSTGRESQL — CONSULTAS SQL
+============================================================
+
+SELECT * FROM nome_da_tabela;
+    Mostra todos os registros da tabela.
+
+SELECT * FROM nome_da_tabela LIMIT 20;
+    Mostra somente os primeiros 20 registros.
+
+SELECT COUNT(*) FROM nome_da_tabela;
+    Conta os registros.
+
+SELECT coluna1, coluna2 FROM nome_da_tabela;
+    Mostra somente determinadas colunas.
+
+SELECT * FROM nome_da_tabela WHERE coluna = 'valor';
+    Filtra registros.
+
+SELECT * FROM nome_da_tabela ORDER BY coluna;
+    Ordena os resultados.
+
+SELECT * FROM nome_da_tabela ORDER BY coluna DESC;
+    Ordena do maior para o menor / mais recente para mais antigo,
+    dependendo do tipo da coluna.
+
+============================================================
+9. POSTGRESQL — BANCO DO PROJETO
+============================================================
+
+Bancos encontrados no projeto:
+
+email_sender
+meu_banco
+postgres
+template0
+template1
+
+Para entrar no banco principal:
+
+\\c email_sender
+
+Depois:
+
+\\dt
+
+Depois de descobrir o nome da tabela:
+
+\\d NOME_DA_TABELA
+
+E para visualizar os dados:
+
+SELECT * FROM NOME_DA_TABELA LIMIT 20;
+
+============================================================
+10. POSTGRESQL — CRIAÇÃO E ALTERAÇÃO
+============================================================
+
+CREATE DATABASE nome_do_banco;
+    Cria um banco.
+
+CREATE TABLE nome_da_tabela (
+    id SERIAL PRIMARY KEY,
+    nome TEXT
+);
+    Exemplo de criação de tabela.
+
+INSERT INTO nome_da_tabela (nome)
+VALUES ('Eduardo');
+    Insere um registro.
+
+UPDATE nome_da_tabela
+SET nome = 'Novo Nome'
+WHERE id = 1;
+    Atualiza um registro.
+
+DELETE FROM nome_da_tabela
+WHERE id = 1;
+    Remove um registro.
+
+ATENÇÃO:
+Sempre use WHERE em UPDATE e DELETE quando quiser alterar/remover
+apenas registros específicos.
+
+============================================================
+11. DOCKER — LIMPEZA E MANUTENÇÃO
+============================================================
+
+docker container prune
+    Remove containers parados.
+
+docker image prune
+    Remove imagens não utilizadas.
+
+docker system df
+    Mostra quanto espaço o Docker está usando.
+
+docker system prune
+    Remove recursos Docker não utilizados.
+
+ATENÇÃO:
+Comandos de prune podem apagar recursos que você pretende manter.
+Confira antes de executar.
+
+============================================================
+12. INSPEÇÃO DO PROJETO
+============================================================
+
+docker compose config
+    Mostra a configuração final interpretada pelo Compose.
+
+docker compose ps
+    Verifica quais serviços estão rodando.
+
+docker compose logs -f
+    Acompanha os logs de todos os serviços.
+
+docker compose logs -f NOME_DO_SERVICO
+    Acompanha os logs de um serviço específico.
+
+docker inspect ID_OU_NOME
+    Mostra detalhes de um container.
+
+docker network ls
+    Lista as redes Docker.
+
+docker volume ls
+    Lista os volumes Docker.
+
+============================================================
+13. FLUXO RECOMENDADO PARA O EMAIL-WORKER-COMPOSE
+============================================================
+
+1. Entrar no projeto:
+
+cd caminho/para/email-worker-compose
+
+2. Ver os arquivos:
+
+ls
+
+3. Ver a estrutura:
+
+tree
+
+4. Ver os serviços:
+
+docker compose ps
+
+5. Ver todos os containers:
+
+docker ps -a
+
+6. Ver logs:
+
+docker compose logs -f
+
+7. Identificar o container PostgreSQL:
+
+docker ps
+
+8. Entrar no PostgreSQL:
+
+docker exec -it ID_DO_POSTGRES psql -U postgres
+
+9. Listar bancos:
+
+\\l
+
+10. Entrar no banco:
+
+\\c email_sender
+
+11. Listar tabelas:
+
+\\dt
+
+12. Ver estrutura:
+
+\\d NOME_DA_TABELA
+
+13. Visualizar registros:
+
+SELECT * FROM NOME_DA_TABELA LIMIT 20;
+
+14. Sair do PostgreSQL:
+
+\\q
+
+15. Se quiser parar o projeto:
+
+docker compose down
+
+============================================================
+14. COMANDOS IMPORTANTES PARA DECORAR
+============================================================
+
+DOCKER:
+docker ps
+docker ps -a
+docker images
+docker logs NOME_OU_ID
+docker exec -it NOME_OU_ID bash
+docker stop NOME_OU_ID
+docker start NOME_OU_ID
+
+DOCKER COMPOSE:
+docker compose ps
+docker compose up -d
+docker compose down
+docker compose logs -f
+docker compose exec NOME_DO_SERVICO COMANDO
+
+POSTGRESQL:
+docker exec -it ID_DO_POSTGRES psql -U postgres
+\\l
+\\c nome_do_banco
+\\dt
+\\d nome_da_tabela
+SELECT * FROM nome_da_tabela LIMIT 20;
+\\q
+
+REDIS:
+docker exec -it ID_DO_REDIS redis-cli
+PING
+KEYS *
+GET chave
+DBSIZE
+QUIT
+
+============================================================
+15. OBSERVAÇÃO SOBRE O TERMINAL
+============================================================
+
+No PostgreSQL:
+
+postgres=#
+    O PostgreSQL está pronto para receber um novo comando.
+
+postgres-#
+    O PostgreSQL está esperando você terminar um comando SQL.
+
+Se entrar em postgres-# por acidente, use:
+
+Ctrl+C
+
+Depois poderá digitar um novo comando.
+
+Comandos que começam com \\ são comandos internos do psql.
+Comandos como SELECT, INSERT, UPDATE e DELETE são SQL.
+
+Exemplo:
+
+\\dt
+
+é diferente de:
+
+SELECT * FROM tabela;
+
+============================================================
+============================================================
