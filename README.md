@@ -4,7 +4,7 @@ Aplicação distribuída de processamento de mensagens utilizando **Docker Compo
 
 O projeto foi desenvolvido durante os estudos de Docker com o objetivo de praticar a criação e integração de múltiplos containers, comunicação entre serviços, persistência de dados, processamento assíncrono por filas e escalabilidade horizontal de workers.
 
-## 📌 Sobre o projeto
+## Sobre o projeto
 
 A aplicação simula um sistema de envio de e-mails.
 
@@ -18,7 +18,7 @@ Quando uma mensagem é recebida pela aplicação:
 
 A arquitetura foi organizada em diferentes serviços Docker, permitindo que cada componente tenha uma responsabilidade específica.
 
-## 🏗️ Arquitetura
+##  Arquitetura
 
 ```text
                          ┌───────────────┐
@@ -52,7 +52,7 @@ A arquitetura foi organizada em diferentes serviços Docker, permitindo que cada
                               └──────────┘ └──────────┘ └──────────┘
 ```
 
-## 🐳 Serviços
+##  Serviços
 
 ### Nginx
 
@@ -97,7 +97,7 @@ Processos responsáveis pelo consumo da fila e processamento das mensagens.
 
 A arquitetura permite executar múltiplas instâncias dos workers, possibilitando **escala horizontal**.
 
-## 📁 Estrutura do projeto
+##  Estrutura do projeto
 
 ```text
 email-worker-compose/
@@ -126,7 +126,7 @@ email-worker-compose/
 └── .gitignore
 ```
 
-## ⚙️ Tecnologias utilizadas
+##  Tecnologias utilizadas
 
 * Docker
 * Docker Compose
@@ -138,7 +138,7 @@ email-worker-compose/
 * Shell Script
 * Git/GitHub
 
-## 🚀 Como executar
+##  Como executar
 
 Clone o repositório:
 
@@ -173,7 +173,7 @@ Visualize os logs:
 docker compose logs -f
 ```
 
-## 📬 Processamento das mensagens
+##  Processamento das mensagens
 
 A aplicação recebe uma requisição contendo o assunto e o conteúdo da mensagem.
 
@@ -199,7 +199,7 @@ O Redis desacopla o recebimento da mensagem do processamento realizado pelos wor
 
 Isso permite que a aplicação continue recebendo novas mensagens mesmo quando o processamento de uma mensagem individual demora mais tempo.
 
-## 📈 Escalabilidade
+##  Escalabilidade
 
 Um dos objetivos do projeto foi praticar a execução de múltiplas instâncias dos workers.
 
@@ -221,7 +221,7 @@ Com isso, múltiplos workers podem consumir mensagens da mesma fila Redis.
 
 Esse modelo permite aumentar a capacidade de processamento adicionando novas instâncias.
 
-## 🌐 Redes Docker
+##  Redes Docker
 
 O projeto utiliza redes separadas para organizar a comunicação entre os serviços:
 
@@ -245,7 +245,7 @@ App ─────── PostgreSQL
 
 Os workers participam da rede responsável pela comunicação com o Redis.
 
-## 🔐 Variáveis de ambiente
+##  Variáveis de ambiente
 
 As configurações sensíveis não são armazenadas diretamente no código.
 
@@ -268,7 +268,7 @@ Para facilitar a configuração de novos ambientes, o projeto possui:
 .env.example
 ```
 
-## 📚 Conceitos praticados
+##  Conceitos praticados
 
 Durante o desenvolvimento foram praticados conceitos de:
 
@@ -293,17 +293,17 @@ Durante o desenvolvimento foram praticados conceitos de:
 * Shell Script;
 * Versionamento com Git.
 
-## 🎯 Objetivo de aprendizado
+##  Objetivo de aprendizado
 
 O principal objetivo deste projeto foi consolidar conhecimentos de **containerização e arquitetura de aplicações distribuídas**, passando desde a criação de containers individuais até a integração de múltiplos serviços através do Docker Compose.
 
 O projeto também serviu para compreender, na prática, conceitos como **filas de mensagens, processamento assíncrono, separação de responsabilidades e escalabilidade horizontal**.
 
-## 📌 Observação
+##  Observação
 
 Este projeto foi desenvolvido como parte dos estudos práticos de Docker e posteriormente organizado para documentação e portfólio.
 
-## 👨‍💻 Autor
+##  Autor
 
 **Eduardo Braga**
 
